@@ -6,13 +6,80 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    if (url.pathname === '/robots.txt') {
+      return handleRobots(url);
+    }
+
     if (url.pathname === '/api/contact') {
       return handleContact(request, env);
     }
 
-    return env.ASSETS.fetch(request);
+    return handleAssetRequest(request, env);
   }
 };
+
+async function handleAssetRequest(request, env) {
+  try {
+    const response = await env.ASSETS.fetch(request);
+
+    // Missing static assets can surface as 500 from the assets binding;
+    // normalize those to 404 so crawlers and clients get the correct status.
+    if (response.status === 500 && isLookupMethod(request.method)) {
+      return notFoundResponse();
+    }
+
+    return response;
+  } catch (error) {
+    // If asset resolution throws on an unmatched path, return 404 rather
+    // than exposing an internal failure.
+    if (isLookupMethod(request.method)) {
+      console.log('ASSETS fetch lookup error:', String(error));
+      return notFoundResponse();
+    }
+
+    throw error;
+  }
+}
+
+function isLookupMethod(method) {
+  return method === 'GET' || method === 'HEAD';
+}
+
+function notFoundResponse() {
+  return new Response('Not Found', {
+    status: 404,
+    headers: {
+      'content-type': 'text/plain; charset=utf-8'
+    }
+  });
+}
+
+function handleRobots(url) {
+  const host = url.hostname.toLowerCase();
+  const isByteStreamsHost = host === 'bytestreams.ai' || host === 'www.bytestreams.ai';
+  const sitemap = isByteStreamsHost
+    ? 'https://bytestreams.ai/sitemap.xml'
+    : 'https://dialtone.menu/sitemap.xml';
+
+  const body = [
+    'User-agent: *',
+    'Allow: /',
+    'Disallow: /admin/',
+    'Disallow: /api/',
+    '',
+    'User-agent: GPTBot',
+    'Disallow: /',
+    '',
+    `Sitemap: ${sitemap}`,
+    ''
+  ].join('\n');
+
+  return new Response(body, {
+    headers: {
+      'content-type': 'text/plain; charset=utf-8'
+    }
+  });
+}
 
 async function handleContact(request, env) {
   if (request.method !== 'POST') {

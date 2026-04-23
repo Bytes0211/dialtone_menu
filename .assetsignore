@@ -3,6 +3,7 @@
 wrangler.toml
 .assetsignore
 worker.js
+robots.txt
 package.json
 package-lock.json
 pnpm-lock.yaml

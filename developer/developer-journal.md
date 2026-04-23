@@ -1,0 +1,20 @@
+# Developer Journal
+
+## 2026-04-23
+- Added `robots.txt` at project root using the requested policy pattern.
+- Allowed general crawling except `/admin/` and `/api/`.
+- Blocked `GPTBot` completely.
+- Added sitemap references for both DialTone and ByteStreams:
+  - `https://dialtone.menu/sitemap.xml`
+  - `https://bytestreams.ai/sitemap.xml`
+- Added a ByteStreams-only robots template at `developer/bytestreams-robots.txt` for host-specific deployment on bytestreams.ai.
+- Moved robots handling into `worker.js` via an explicit `/robots.txt` route so robots policy is no longer managed as a static asset.
+- Route now emits host-specific sitemap values (`dialtone.menu` vs `bytestreams.ai`) and keeps `GPTBot` blocked.
+- Added a lightweight Node test at `tests/robots.test.mjs` with `pnpm run test:robots` to validate:
+  - DialTone host emits DialTone sitemap
+  - ByteStreams host emits ByteStreams sitemap
+  - `GPTBot` remains blocked
+  - Non-robots paths still fall through to `env.ASSETS.fetch`
+- Fixed routing bug where missing static paths could surface as 500.
+- Worker now normalizes unmatched lookup failures to HTTP 404 for `GET`/`HEAD` when assets lookup throws or returns 500.
+- Extended tests to cover missing-path cases like `/robot.txt` and `/favicon.ico` so regressions are caught quickly.

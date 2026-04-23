@@ -1,10 +1,12 @@
 {
   "name": "dialtone-menu",
   "private": true,
+  "type": "module",
   "version": "0.1.0",
   "description": "DialTone marketing site — dialtone.menu (Cloudflare Workers with Static Assets)",
   "scripts": {
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "test:robots": "node tests/robots.test.mjs"
   },
   "devDependencies": {
     "wrangler": "4.83.0"
