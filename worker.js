@@ -61,15 +61,30 @@ async function handleContact(request, env) {
   });
 
   if (!result.ok) {
+    // Log the raw provider response so CF Workers observability captures
+    // it — crucial when diagnosing FormSubmit activation / rate-limit /
+    // spam-filter states. The full `result` object stays server-side.
+    console.log('FormSubmit failure:', JSON.stringify({
+      httpStatus: result.httpStatus,
+      providerSuccess: result.providerSuccess,
+      providerMessage: result.providerMessage
+    }));
+
     const providerMessage = (result.providerMessage || '').toLowerCase();
-    const needsActivation = providerMessage.includes('needs activation');
+    // Narrow match: "activation" present AND "deactivat" absent, so
+    // messages about deactivation/deactivated accounts don't get
+    // misrouted into the activation-specific 503.
+    const needsActivation = providerMessage.includes('activation') && !providerMessage.includes('deactivat');
 
     if (needsActivation) {
       return jsonResponse({
-        error: 'Contact form setup is pending activation. Please email hello@bytestreams.ai for now.'
+        error: "Contact form setup is pending activation. An activation email was sent to hello@bytestreams.ai — please click the link in it, then resubmit."
       }, 503);
     }
 
+    // Provider message stays server-side in the console.log above;
+    // never echo it to the client (may contain rate-limit reasons,
+    // spam verdicts, or other operational detail).
     return jsonResponse({
       error: 'Message delivery failed. Please try again shortly.'
     }, 502);
@@ -112,6 +127,8 @@ async function forwardToFormSubmit({ destinationEmail, siteName, name, email, me
 
   return {
     ok: response.ok && providerSuccess,
+    httpStatus: response.status,
+    providerSuccess,
     providerMessage: payload && payload.message ? String(payload.message) : ''
   };
 }
