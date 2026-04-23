@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — DialTone</title>
+  <meta name="description" content="Privacy policy for DialTone — AI voice ordering for restaurants." />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c8391a'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..500&family=Instrument+Sans:wght@400..600&family=JetBrains+Mono:wght@400..500&display=swap" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --vermillion: #c8391a;
+      --ink: #1a1410;
+      --paper: #f5efe6;
+      --paper-warm: #ebe3d5;
+      --muted: #6b5d4f;
+      --line: #2a211a;
+      --gold: #b89968;
+
+      --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+      --font-body: 'Instrument Sans', 'Segoe UI', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+      --max-content: 820px;
+      --max-nav: 1240px;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navigation */
+    .nav {
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: var(--max-nav);
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .logo-bullet {
+      display: inline-block;
+      width: 0.7em;
+      height: 0.7em;
+      background: var(--vermillion);
+      border-radius: 50%;
+    }
+    .nav-meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    main { flex: 1; }
+    .container {
+      max-width: var(--max-content);
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--vermillion);
+      margin: 0 0 1rem;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin: 0 0 0.5rem;
+    }
+
+    .doc-meta {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin: 0 0 2.5rem;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.5rem;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 2.75rem 0 1rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    h2 .num {
+      font-family: var(--font-mono);
+      font-weight: 400;
+      color: var(--vermillion);
+      font-size: 0.8em;
+      letter-spacing: 0;
+    }
+
+    p {
+      font-size: 1rem;
+      color: var(--ink);
+      margin: 0 0 1rem;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+      margin: 0 0 1rem;
+    }
+    ul li {
+      font-size: 1rem;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    ul li::marker {
+      color: var(--vermillion);
+    }
+
+    strong {
+      font-weight: 600;
+    }
+
+    /* Summary box for the draft notice */
+    .summary-box {
+      background: var(--paper-warm);
+      border-left: 3px solid var(--vermillion);
+      padding: 1.5rem 1.75rem;
+      margin: 2rem 0;
+      font-size: 0.98rem;
+    }
+    .summary-box-label {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: var(--vermillion);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Links */
+    a {
+      color: var(--vermillion);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+      transition: color 150ms ease-out;
+    }
+    a:hover { color: var(--ink); }
+
+    /* Footer */
+    footer {
+      background: var(--ink);
+      margin-top: auto;
+    }
+    .footer-inner {
+      max-width: var(--max-nav);
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: rgba(245, 239, 230, 0.55);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-inner a {
+      color: rgba(245, 239, 230, 0.8);
+      text-decoration: none;
+      transition: color 150ms ease-out;
+    }
+    .footer-inner a:hover { color: var(--gold); }
+    .footer-links { display: flex; gap: 1.25rem; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="/" aria-label="DialTone home">
+        <span class="logo-bullet" aria-hidden="true"></span>
+        <span>DialTone</span>
+      </a>
+      <span class="nav-meta">Privacy</span>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <p class="eyebrow">Legal</p>
+      <h1>Privacy Policy</h1>
+      <p class="doc-meta">Last updated · April 20, 2026</p>
+
+      <div class="summary-box">
+        <div class="summary-box-label">Draft notice</div>
+        <p style="margin: 0;">This is a pre-launch privacy notice. It will be replaced with a finalized policy before the first paying customer goes live. If anything here is unclear, email <a href="mailto:hello@dialtone.menu">hello@dialtone.menu</a>.</p>
+      </div>
+
+      <p>This policy explains what information DialTone collects when you call a restaurant that uses our service, interact with us by SMS, or visit this website. DialTone is an AI-powered phone ordering and reservation service used by independent restaurants.</p>
+
+      <h2><span class="num">01</span> What we collect</h2>
+      <ul>
+        <li><strong>Phone number.</strong> When you call a restaurant, we receive your caller ID from the phone network. We use it to identify returning customers by the restaurant that received the call, and to send you transactional text messages (payment links, reservation confirmations).</li>
+        <li><strong>Voice call content.</strong> The AI agent transcribes and temporarily stores your side of the conversation so it can take your order or book a table. Call recordings may be retained short-term for quality review and dispute resolution.</li>
+        <li><strong>Order details.</strong> Items you order, modifiers, pickup or delivery preference, and — for delivery — the address you give the agent.</li>
+        <li><strong>Name.</strong> If you provide it during the call (e.g. "put it under Mike").</li>
+        <li><strong>Payment information.</strong> Card payments are processed by Stripe, Inc. DialTone never sees or stores your card number; Stripe sends us only a confirmation that payment succeeded.</li>
+        <li><strong>Website usage.</strong> Standard web server logs (IP, user agent, page requested). We do not use tracking cookies on this marketing site.</li>
+      </ul>
+
+      <h2><span class="num">02</span> How we use it</h2>
+      <ul>
+        <li>To complete the order or reservation you placed by phone.</li>
+        <li>To send you a secure payment link by SMS after a phone order.</li>
+        <li>To send you reservation confirmations and reminders by SMS if you book a table.</li>
+        <li>To let the restaurant's staff see and manage your order.</li>
+        <li>To debug and improve the service when something goes wrong on a call.</li>
+      </ul>
+      <p>We do not sell your information. We do not use it for marketing to you. We do not share it with advertisers.</p>
+
+      <h2><span class="num">03</span> Service providers</h2>
+      <p>DialTone relies on a small number of third parties to operate:</p>
+      <ul>
+        <li><a href="https://supabase.com/privacy">Supabase</a> — database and authentication.</li>
+        <li><a href="https://www.twilio.com/legal/privacy">Twilio</a> — phone number routing and SMS delivery.</li>
+        <li><a href="https://vapi.ai/privacy">Vapi</a> — the voice agent platform (speech-to-text, large language model, text-to-speech orchestration).</li>
+        <li><a href="https://elevenlabs.io/privacy">ElevenLabs</a> — text-to-speech voice generation used by Vapi.</li>
+        <li><a href="https://openai.com/policies/privacy-policy/">OpenAI</a> — large language model powering the voice agent.</li>
+        <li><a href="https://stripe.com/privacy">Stripe</a> — payment processing for card orders.</li>
+        <li><a href="https://sentry.io/privacy/">Sentry</a> — error reporting so we can notice and fix problems.</li>
+        <li><a href="https://www.cloudflare.com/privacypolicy/">Cloudflare</a> — web hosting for this site and our admin + kitchen apps.</li>
+      </ul>
+
+      <h2><span class="num">04</span> SMS messaging</h2>
+      <p>If you place a phone order or book a reservation, DialTone may send you transactional SMS messages on behalf of the restaurant: a payment link, a reservation confirmation, or an appointment reminder. Message and data rates may apply. Message frequency varies — typically one or two messages per completed order or booking.</p>
+      <p>You can opt out at any time by replying <strong>STOP</strong> to any message from us. Reply <strong>HELP</strong> for assistance. Opting out will prevent us from sending you a payment link, which means card orders placed by phone cannot be completed — you'll need to pay in person instead.</p>
+      <p>We do not use the phone numbers we collect for marketing SMS, and we do not share them with other companies for their marketing.</p>
+
+      <h2><span class="num">05</span> Data retention</h2>
+      <p>Order and reservation records are retained for the restaurant's business records and tax / regulatory purposes, typically for several years. Voice call transcripts and recordings are retained short-term (days to weeks) for quality review and then deleted. Payment information is held by Stripe per their retention policy.</p>
+
+      <h2><span class="num">06</span> Your rights</h2>
+      <p>You can ask us to confirm what information we hold that is associated with your phone number, to correct it if it's wrong, or to delete it (subject to the restaurant's own record-keeping obligations). Email <a href="mailto:hello@dialtone.menu">hello@dialtone.menu</a> with your request and we'll respond within a reasonable time.</p>
+
+      <h2><span class="num">07</span> Children</h2>
+      <p>DialTone is not directed to children under 13 and we do not knowingly collect information from them.</p>
+
+      <h2><span class="num">08</span> Changes</h2>
+      <p>If we make material changes to this policy we'll update the "Last updated" date above and, where feasible, notify affected customers. Continued use of the service after changes constitutes acceptance of the updated policy.</p>
+
+      <h2><span class="num">09</span> Contact</h2>
+      <p>Questions? Concerns? Email <a href="mailto:hello@dialtone.menu">hello@dialtone.menu</a>.</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>&copy; 2026 DialTone · ByteStreams LLC</span>
+      <span class="footer-links">
+        <a href="/">Home</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </span>
+    </div>
+  </footer>
+</body>
+</html>

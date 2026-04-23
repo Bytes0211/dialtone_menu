@@ -1,0 +1,12 @@
+{
+  "name": "dialtone-menu",
+  "private": true,
+  "version": "0.1.0",
+  "description": "DialTone marketing site — dialtone.menu (Cloudflare Workers with Static Assets)",
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.83.0"
+  }
+}

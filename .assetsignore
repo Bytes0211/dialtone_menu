@@ -1,0 +1,14 @@
+# Files in this directory that should NOT be deployed to the Worker
+# as public assets. Uses gitignore-style syntax.
+wrangler.toml
+.assetsignore
+worker.js
+package.json
+package-lock.json
+pnpm-lock.yaml
+node_modules
+.git
+.github
+.gitignore
+docs
+developer

@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DialTone — AI voice ordering for restaurants</title>
+  <meta name="description" content="AI phone agent that takes restaurant orders and reservations. Coming soon." />
+
+  <meta property="og:title" content="DialTone — AI voice ordering for restaurants" />
+  <meta property="og:description" content="DialTone answers your phone, takes the order or books the table, and sends it straight to your staff." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://dialtone.menu" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="DialTone — AI voice ordering for restaurants" />
+  <meta name="twitter:description" content="DialTone answers your phone, takes the order or books the table, and sends it straight to your staff." />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c8391a'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..500&family=Instrument+Sans:wght@400..600&family=JetBrains+Mono:wght@400..500&display=swap" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      /* Primary palette */
+      --vermillion: #c8391a;
+      --ink: #1a1410;
+      --paper: #f5efe6;
+      --paper-warm: #ebe3d5;
+      --muted: #6b5d4f;
+      --line: #2a211a;
+      --gold: #b89968;
+
+      /* Fonts */
+      --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+      --font-body: 'Instrument Sans', 'Segoe UI', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+      /* Layout */
+      --max-content: 820px;
+      --max-nav: 1240px;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navigation */
+    .nav {
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: var(--max-nav);
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .logo-bullet {
+      display: inline-block;
+      width: 0.7em;
+      height: 0.7em;
+      background: var(--vermillion);
+      border-radius: 50%;
+    }
+    .nav-meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    /* Main container */
+    main {
+      flex: 1;
+    }
+    .container {
+      max-width: var(--max-content);
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+
+    /* Status pill */
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--vermillion);
+      margin: 0 0 1.5rem;
+    }
+    .status .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--vermillion);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%     { opacity: 0.45; }
+    }
+
+    /* Headings */
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin: 0 0 1.5rem;
+    }
+    h1 em {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 500;
+      color: var(--vermillion);
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.7rem;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      margin: 3rem 0 1rem;
+    }
+    h2 .num {
+      font-family: var(--font-mono);
+      font-weight: 400;
+      color: var(--vermillion);
+      margin-right: 0.6em;
+      font-size: 0.85em;
+    }
+
+    .lede {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--ink);
+      margin: 0 0 2.5rem;
+      max-width: 640px;
+    }
+
+    /* Summary box */
+    .summary-box {
+      background: var(--paper-warm);
+      border-left: 3px solid var(--vermillion);
+      padding: 1.5rem 1.75rem;
+      margin: 2rem 0 3rem;
+      font-size: 1rem;
+    }
+    .summary-box strong {
+      font-weight: 600;
+    }
+
+    /* Features — editorial numbered pattern */
+    .features {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin: 2rem 0 3rem;
+    }
+    @media (min-width: 640px) {
+      .features {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+    }
+    .feature {
+      border-top: 2px solid var(--line);
+      padding-top: 1.25rem;
+    }
+    .feature-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--vermillion);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+    .feature-title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.15rem;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin: 0 0 0.5rem;
+    }
+    .feature-desc {
+      font-size: 0.98rem;
+      line-height: 1.55;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* Dark callout */
+    .dark-callout {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 1.75rem 1.75rem;
+      margin: 3rem 0;
+    }
+    .dark-callout .label {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.78rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 1rem;
+    }
+    .dark-callout p {
+      font-family: var(--font-mono);
+      font-size: 0.87rem;
+      line-height: 1.6;
+      margin: 0;
+      color: var(--paper);
+    }
+
+    /* Contact section */
+    .contact {
+      margin: 3.5rem 0 0;
+    }
+    .contact h2 {
+      margin-top: 0;
+    }
+    .contact p {
+      font-size: 1rem;
+      color: var(--ink);
+      margin: 0 0 1.75rem;
+      max-width: 560px;
+    }
+    .contact-form {
+      display: grid;
+      gap: 1.25rem;
+      max-width: 560px;
+    }
+    .form-field {
+      display: grid;
+      gap: 0.4rem;
+    }
+    .form-field label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--vermillion);
+    }
+    .form-field input,
+    .form-field textarea {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--ink);
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 0;
+      padding: 0.7rem 0.85rem;
+      width: 100%;
+      transition: border-color 150ms ease-out, box-shadow 150ms ease-out;
+    }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+      color: var(--muted);
+    }
+    .form-field input:focus,
+    .form-field textarea:focus {
+      outline: none;
+      border-color: var(--vermillion);
+      box-shadow: inset 0 0 0 1px var(--vermillion);
+    }
+    .form-field textarea {
+      min-height: 140px;
+      resize: vertical;
+      font-family: var(--font-body);
+    }
+    .honeypot {
+      position: absolute;
+      left: -10000px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .submit-btn {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      background: var(--vermillion);
+      color: var(--paper);
+      border: 1px solid var(--vermillion);
+      padding: 0.85rem 1.75rem;
+      cursor: pointer;
+      border-radius: 0;
+      transition: background-color 150ms ease-out, border-color 150ms ease-out;
+      justify-self: start;
+    }
+    .submit-btn:hover {
+      background: #a52e14;
+      border-color: #a52e14;
+    }
+    .submit-btn:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 2px;
+    }
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .form-status {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin: 0;
+      min-height: 1.4em;
+    }
+    .form-status--success { color: #3d7a47; }
+    .form-status--error   { color: var(--vermillion); }
+
+    /* Links */
+    a {
+      color: var(--vermillion);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+      transition: color 150ms ease-out;
+    }
+    a:hover { color: var(--ink); }
+
+    /* Footer */
+    footer {
+      background: var(--ink);
+      margin-top: auto;
+    }
+    .footer-inner {
+      max-width: var(--max-nav);
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: rgba(245, 239, 230, 0.55);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-inner a {
+      color: rgba(245, 239, 230, 0.8);
+      text-decoration: none;
+      transition: color 150ms ease-out;
+    }
+    .footer-inner a:hover { color: var(--gold); }
+    .footer-links { display: flex; gap: 1.25rem; }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="/" aria-label="DialTone home">
+        <span class="logo-bullet" aria-hidden="true"></span>
+        <span>DialTone</span>
+      </a>
+      <span class="nav-meta">Coming soon</span>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <p class="status">
+        <span class="dot" aria-hidden="true"></span>
+        Building now — launching soon
+      </p>
+
+      <h1>AI voice ordering for restaurants that still take <em>phone orders</em>.</h1>
+
+      <p class="lede">DialTone answers your phone, takes the order or books the table, and sends it straight to your staff. No missed calls, no hold music, no orders lost to the lunch rush.</p>
+
+      <div class="summary-box">
+        <strong>Key takeaway:</strong> DialTone answers every call, so your kitchen never misses an order — even during the dinner rush.
+      </div>
+
+      <div class="features" role="list">
+        <div class="feature" role="listitem">
+          <div class="feature-num">01</div>
+          <h3 class="feature-title">AI answers the phone</h3>
+          <p class="feature-desc">A natural voice agent that knows your menu and handles modifiers, substitutions, and questions.</p>
+        </div>
+        <div class="feature" role="listitem">
+          <div class="feature-num">02</div>
+          <h3 class="feature-title">Order hits the kitchen</h3>
+          <p class="feature-desc">Paid orders appear on your kitchen tablet the moment payment clears. Loud alert, big touch targets.</p>
+        </div>
+        <div class="feature" role="listitem">
+          <div class="feature-num">03</div>
+          <h3 class="feature-title">You stay in control</h3>
+          <p class="feature-desc">Manage your menu, hours, and order history from a dashboard built for operators, not engineers.</p>
+        </div>
+      </div>
+
+      <div class="dark-callout">
+        <div class="label">Sample voice greeting</div>
+        <p>"Hi, thanks for calling Marco's Pizzeria! I'm the AI ordering assistant. I can help you place an order or answer questions about the menu. Would you like to get started?"</p>
+      </div>
+
+      <section class="contact" id="contact" aria-labelledby="contactTitle">
+        <h2 id="contactTitle"><span class="num">04</span> Get in touch</h2>
+        <p>Interested in being a pilot restaurant, or just curious how this would fit your place? Drop a note and we'll get back to you.</p>
+
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="form-field">
+            <label for="nameField">Name</label>
+            <input id="nameField" name="name" type="text" placeholder="Your name" required autocomplete="name" maxlength="120">
+          </div>
+
+          <div class="form-field">
+            <label for="emailField">Email</label>
+            <input id="emailField" name="email" type="email" placeholder="you@example.com" required autocomplete="email" maxlength="254">
+          </div>
+
+          <div class="form-field">
+            <label for="messageField">Message</label>
+            <textarea id="messageField" name="message" placeholder="Tell us about your restaurant..." required maxlength="5000"></textarea>
+          </div>
+
+          <div class="honeypot" aria-hidden="true">
+            <label for="websiteField">Leave this field empty</label>
+            <input id="websiteField" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+
+          <button type="submit" class="submit-btn" id="submitBtn">Send message</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>&copy; 2026 DialTone · ByteStreams LLC</span>
+      <span class="footer-links">
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const form = document.getElementById('contactForm');
+      const status = document.getElementById('formStatus');
+      const submitBtn = document.getElementById('submitBtn');
+      if (!form || !status || !submitBtn) return;
+
+      const setStatus = (msg, kind) => {
+        status.textContent = msg;
+        status.classList.remove('form-status--success', 'form-status--error');
+        if (kind) status.classList.add(`form-status--${kind}`);
+      };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const data = new FormData(form);
+        const name = (data.get('name') || '').toString().trim();
+        const email = (data.get('email') || '').toString().trim();
+        const message = (data.get('message') || '').toString().trim();
+        const website = (data.get('website') || '').toString().trim();
+
+        if (!name || !email || !message) {
+          setStatus('Please fill out all fields.', 'error');
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          setStatus('Please enter a valid email address.', 'error');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        setStatus('Sending your message...', 'success');
+
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, message, website })
+          });
+
+          const payload = await response.json().catch(() => ({}));
+
+          if (!response.ok || !payload.ok) {
+            throw new Error(payload.error || 'Unable to send your message right now.');
+          }
+
+          setStatus("Thanks! We'll get back to you shortly.", 'success');
+          form.reset();
+        } catch (err) {
+          setStatus(err.message || 'Unable to send your message right now.', 'error');
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
