@@ -15,17 +15,29 @@ main = "worker.js"
 compatibility_date = "2026-04-20"
 compatibility_flags = []
 
-# Contact form destination. The Worker's `/api/contact` handler forwards
-# validated submissions to FormSubmit.co, which emails this address.
-# First send requires one-time activation via link FormSubmit emails to
-# this address.
+# Contact form destination. The Worker's `/api/contact` handler sends
+# validated submissions via Resend's API; messages are delivered here.
+# `hello@bytestreams.ai` is shared across the ByteStreams/DialTone
+# brands as the single monitored inbox.
 [vars]
 CONTACT_EMAIL = "hello@bytestreams.ai"
-# Identifies this site in the contact-form email subject and body.
-# We share `hello@bytestreams.ai` across ByteStreams, DialTone, and
-# DialTone.med, so each Worker sets its own SITE_NAME to tag outbound
-# submissions.
+# Identifies this site in the contact-form email From display name and
+# subject prefix (e.g. `DialTone Contact: <submitter name>`), since
+# both DialTone and ByteStreams share one sending domain on Resend
+# (`send.bytestreams.ai`). Distinguishing by SITE_NAME keeps inbox
+# sorting clean.
 SITE_NAME = "DialTone"
+
+# Required secret (not stored in this file): RESEND_API_KEY
+# The `/api/contact` handler uses this to authenticate with Resend's
+# API. Set it once per environment via:
+#
+#   npx wrangler secret put RESEND_API_KEY
+#
+# The value is encrypted at rest by Cloudflare and exposed to the
+# Worker at runtime as `env.RESEND_API_KEY`. Never commit the raw key.
+# If the secret is missing, `/api/contact` returns a user-friendly 503
+# directing submitters to email `hello@bytestreams.ai` manually.
 
 # Assets live under `./public/` so wrangler's dev-server file watcher
 # doesn't observe `.wrangler/` writes (which would cause a self-
@@ -53,7 +65,6 @@ run_worker_first = [
   "/robots.txt",
   "/sitemap.xml",
   "/favicon.ico",
-  "/favicon.png",
   "/.well-known/*",
   "/api/*"
 ]

@@ -1,5 +1,5 @@
 # Exclude design/concept images from being served publicly.
-# Only `favicon.png` should reach the internet — the rest are kept in
+# Only `favicon.svg` should reach the internet — the rest are kept in
 # the repo as design-history references.
 images/*
-!images/favicon.png
+!images/favicon.svg

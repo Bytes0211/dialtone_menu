@@ -16,7 +16,7 @@ async function routeRequest(request, env, url) {
     return handleRobots(url);
   }
 
-  if (url.pathname === '/favicon.ico' || url.pathname === '/favicon.png') {
+  if (url.pathname === '/favicon.ico') {
     return handleFavicon(request, env);
   }
 
@@ -101,8 +101,13 @@ function handleRobots(url) {
 }
 
 async function handleFavicon(request, env) {
+  // Browsers default-request `/favicon.ico`; rewrite to the SVG asset.
+  // Modern browsers honor the HTML `<link rel="icon" type="image/svg+xml">`
+  // hints and skip the `.ico` request entirely; this path handles the
+  // legacy fallback case and ensures the response still carries the
+  // correct `image/svg+xml` content-type from the assets binding.
   const faviconUrl = new URL(request.url);
-  faviconUrl.pathname = '/images/favicon.png';
+  faviconUrl.pathname = '/images/favicon.svg';
   const faviconRequest = new Request(faviconUrl.toString(), request);
   try {
     const response = await env.ASSETS.fetch(faviconRequest);
@@ -185,43 +190,34 @@ async function handleContact(request, env) {
     return jsonResponse({ error: 'Contact destination is not configured.' }, 503);
   }
 
-  const requestUrl = new URL(request.url);
-  const requestOrigin = request.headers.get('origin') || requestUrl.origin;
+  if (!env.RESEND_API_KEY) {
+    // Surfaces in observability; client-side error keeps submitters in
+    // the form rather than bouncing them to a mail app.
+    console.log('Contact form unavailable: RESEND_API_KEY secret is not set.');
+    return jsonResponse({
+      error: 'Contact form is temporarily unavailable. Please try again shortly.'
+    }, 503);
+  }
 
-  const result = await forwardToFormSubmit({
+  const result = await forwardToResend({
     destinationEmail,
     siteName: env.SITE_NAME,
     name,
     email,
     message,
-    origin: requestOrigin
+    apiKey: env.RESEND_API_KEY
   });
 
   if (!result.ok) {
-    // Log the raw provider response so CF Workers observability captures
-    // it — crucial when diagnosing FormSubmit activation / rate-limit /
-    // spam-filter states. The full `result` object stays server-side.
-    console.log('FormSubmit failure:', JSON.stringify({
+    // Log provider response for CF Workers observability — rate-limit
+    // reasons, invalid-key errors, and domain-unverified states all
+    // surface here. Details stay server-side.
+    console.log('Resend failure:', JSON.stringify({
       httpStatus: result.httpStatus,
-      providerSuccess: result.providerSuccess,
-      providerMessage: result.providerMessage
+      errorName: result.errorName,
+      errorMessage: result.errorMessage
     }));
 
-    const providerMessage = (result.providerMessage || '').toLowerCase();
-    // Narrow match: "activation" present AND "deactivat" absent, so
-    // messages about deactivation/deactivated accounts don't get
-    // misrouted into the activation-specific 503.
-    const needsActivation = providerMessage.includes('activation') && !providerMessage.includes('deactivat');
-
-    if (needsActivation) {
-      return jsonResponse({
-        error: "Contact form setup is pending activation. An activation email was sent to hello@bytestreams.ai — please click the link in it, then resubmit."
-      }, 503);
-    }
-
-    // Provider message stays server-side in the console.log above;
-    // never echo it to the client (may contain rate-limit reasons,
-    // spam verdicts, or other operational detail).
     return jsonResponse({
       error: 'Message delivery failed. Please try again shortly.'
     }, 502);
@@ -230,44 +226,89 @@ async function handleContact(request, env) {
   return jsonResponse({ ok: true });
 }
 
-async function forwardToFormSubmit({ destinationEmail, siteName, name, email, message, origin }) {
-  const endpoint = `https://formsubmit.co/ajax/${encodeURIComponent(destinationEmail)}`;
-
-  const response = await fetch(endpoint, {
+async function forwardToResend({ destinationEmail, siteName, name, email, message, apiKey }) {
+  const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Origin: origin,
-      Referer: `${origin}/`
+      Authorization: `Bearer ${apiKey}`
     },
     body: JSON.stringify({
-      site: siteName,
-      name,
-      email,
-      message,
-      _subject: `${siteName} Contact: ${name}`,
-      _captcha: 'false',
-      _template: 'table',
-      _source: `${siteName} (${origin})`
+      // Sender lives on the shared `send.bytestreams.ai` Resend domain
+      // (see developer/resend-notes or the project plan memo). `hello@`
+      // local-part kept in sync with the recipient mailbox for symmetry.
+      from: `${siteName} <contact@send.bytestreams.ai>`,
+      to: [destinationEmail],
+      // Reply-To: the submitter's address so hitting Reply in Gmail goes
+      // straight back to the person who filled out the form.
+      reply_to: email,
+      subject: `${siteName} Contact: ${name}`,
+      text: buildTextBody({ siteName, name, email, message }),
+      html: buildHtmlBody({ siteName, name, email, message })
     })
   });
 
-  let payload;
+  let payload = null;
   try {
     payload = await response.json();
   } catch {
     payload = null;
   }
 
-  const providerSuccess = payload && String(payload.success).toLowerCase() === 'true';
+  // Resend success returns `{ id: "<resend_message_id>" }`; errors return
+  // `{ statusCode, name, message }`. Treat presence of `id` as the ok signal.
+  const ok = response.ok && payload !== null && typeof payload.id === 'string';
 
   return {
-    ok: response.ok && providerSuccess,
+    ok,
     httpStatus: response.status,
-    providerSuccess,
-    providerMessage: payload && payload.message ? String(payload.message) : ''
+    errorName: payload && payload.name ? String(payload.name) : '',
+    errorMessage: payload && payload.message ? String(payload.message) : ''
   };
+}
+
+function buildTextBody({ siteName, name, email, message }) {
+  return [
+    `New ${siteName} contact form submission`,
+    '',
+    `From: ${name} <${email}>`,
+    '',
+    message,
+    '',
+    '---',
+    `Submitted via the ${siteName} contact form.`,
+    'Reply directly to this email to respond to the sender.'
+  ].join('\n');
+}
+
+function buildHtmlBody({ siteName, name, email, message }) {
+  const safeSite = escapeHtml(siteName);
+  const safeName = escapeHtml(name);
+  const safeEmail = escapeHtml(email);
+  const safeMessage = escapeHtml(message);
+  return [
+    '<!doctype html>',
+    '<html>',
+    '<body style="font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; color: #1a1410;">',
+    `<h2 style="margin: 0 0 16px 0;">New ${safeSite} contact form submission</h2>`,
+    `<p style="margin: 0 0 8px 0;"><strong>From:</strong> ${safeName} &lt;<a href="mailto:${safeEmail}" style="color: #c8391a;">${safeEmail}</a>&gt;</p>`,
+    '<hr style="border: none; border-top: 1px solid #ebe3d5; margin: 16px 0;">',
+    `<div style="white-space: pre-wrap; line-height: 1.5;">${safeMessage}</div>`,
+    '<hr style="border: none; border-top: 1px solid #ebe3d5; margin: 24px 0 16px 0;">',
+    `<p style="margin: 0; font-size: 12px; color: #6b5d4f;">Submitted via the ${safeSite} contact form. Reply directly to this email to respond to the sender.</p>`,
+    '</body>',
+    '</html>'
+  ].join('');
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
 }
 
 function normalizeText(value, maxLength) {
