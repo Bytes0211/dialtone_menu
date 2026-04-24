@@ -32,6 +32,11 @@ SITE_NAME = "DialTone"
 # don't get served back as public assets.
 [assets]
 directory = "./"
+# `binding = "ASSETS"` exposes the assets collection to the Worker as
+# `env.ASSETS`, which `worker.js` uses to proxy `/favicon.ico` to
+# `/images/favicon.png` and to resolve unmatched paths. Without this
+# binding, `env.ASSETS` is undefined and those fallbacks 404 silently.
+binding = "ASSETS"
 # not_found_handling = "none" — this is a static multi-page site, not
 # an SPA, so unknown paths should return 404 rather than rewriting
 # to /index.html.
