@@ -241,8 +241,12 @@ async function forwardToResend({ destinationEmail, siteName, name, email, messag
       from: `${siteName} <contact@send.bytestreams.ai>`,
       to: [destinationEmail],
       // Reply-To: the submitter's address so hitting Reply in Gmail goes
-      // straight back to the person who filled out the form.
-      reply_to: email,
+      // straight back to the person who filled out the form. Passed as a
+      // single-element array to match Resend's documented canonical form;
+      // the regex check in `handleContact` already rejects display-name /
+      // bracketed-address syntax (whitespace and `<>` fail the anchored
+      // `[^\s@]+@[^\s@]+\.[^\s@]+` pattern), so `email` is a bare address.
+      reply_to: [email],
       subject: `${siteName} Contact: ${name}`,
       text: buildTextBody({ siteName, name, email, message }),
       html: buildHtmlBody({ siteName, name, email, message })
