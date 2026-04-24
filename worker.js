@@ -6,17 +6,36 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    if (url.pathname === '/robots.txt') {
-      return handleRobots(url);
-    }
-
-    if (url.pathname === '/api/contact') {
-      return handleContact(request, env);
-    }
-
-    return handleAssetRequest(request, env);
+    return routeRequest(request, env, url);
   }
 };
+
+async function routeRequest(request, env, url) {
+  // Explicit handlers for known dynamic paths.
+  if (url.pathname === '/robots.txt') {
+    return handleRobots(url);
+  }
+
+  if (url.pathname === '/favicon.ico' || url.pathname === '/favicon.png') {
+    return handleFavicon(request, env);
+  }
+
+  if (url.pathname === '/.well-known/security.txt') {
+    return handleSecurityTxt();
+  }
+
+  if (url.pathname === '/sitemap.xml') {
+    return notFoundResponse();
+  }
+
+  if (url.pathname === '/api/contact') {
+    return handleContact(request, env);
+  }
+
+  // For all paths not explicitly handled above, delegate to the assets binding
+  // and normalize missing lookups to 404.
+  return handleAssetRequest(request, env);
+}
 
 async function handleAssetRequest(request, env) {
   try {
@@ -71,6 +90,40 @@ function handleRobots(url) {
     'Disallow: /',
     '',
     `Sitemap: ${sitemap}`,
+    ''
+  ].join('\n');
+
+  return new Response(body, {
+    headers: {
+      'content-type': 'text/plain; charset=utf-8'
+    }
+  });
+}
+
+async function handleFavicon(request, env) {
+  const faviconUrl = new URL(request.url);
+  faviconUrl.pathname = '/images/favicon.png';
+  const faviconRequest = new Request(faviconUrl.toString(), request);
+  try {
+    const response = await env.ASSETS.fetch(faviconRequest);
+    if (response.status === 500 && isLookupMethod(request.method)) {
+      return notFoundResponse();
+    }
+    return response;
+  } catch (error) {
+    if (isLookupMethod(request.method)) {
+      console.log('ASSETS favicon lookup error:', String(error));
+      return notFoundResponse();
+    }
+    throw error;
+  }
+}
+
+function handleSecurityTxt() {
+  const body = [
+    'Contact: mailto:security@bytestreams.ai',
+    'Expires: 2027-04-23T00:00:00.000Z',
+    'Preferred-Languages: en',
     ''
   ].join('\n');
 
