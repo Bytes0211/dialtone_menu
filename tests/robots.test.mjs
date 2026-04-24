@@ -77,19 +77,44 @@ async function run() {
   assert.equal(missingPathResponse.status, 404, 'Missing asset lookups should return 404 when assets fetch throws');
   assert.equal(await missingPathResponse.text(), 'Not Found', '404 body should be stable for missing paths');
 
-  const missingFaviconRequest = new Request('https://dialtone.menu/favicon.ico');
-  const fiveHundredAssetsEnv = {
+  const explicitFaviconRequest = new Request('https://dialtone.menu/favicon.ico');
+  const faviconAssetsEnv = {
     ASSETS: {
-      fetch: async () => new Response('internal', { status: 500 })
+      fetch: async (req) => {
+        const url = new URL(req.url);
+        if (url.pathname === '/images/favicon.png') {
+          return new Response('PNG', { status: 200, headers: { 'content-type': 'image/png' } });
+        }
+        return new Response('Not Found', { status: 404 });
+      }
     }
   };
-
-  const missingFaviconResponse = await worker.fetch(missingFaviconRequest, fiveHundredAssetsEnv);
+  const explicitFaviconResponse = await worker.fetch(explicitFaviconRequest, faviconAssetsEnv);
+  assert.equal(explicitFaviconResponse.status, 200, 'Favicon handler should proxy /images/favicon.png from assets');
   assert.equal(
-    missingFaviconResponse.status,
-    404,
-    'Missing favicon should return 404 when assets binding reports 500 for lookup'
+    explicitFaviconResponse.headers.get('content-type'),
+    'image/png',
+    'Favicon handler should return image/png content type'
   );
+
+  const securityTxtRequest = new Request('https://dialtone.menu/.well-known/security.txt');
+  const securityTxtResponse = await worker.fetch(securityTxtRequest, throwingAssetsEnv);
+  const securityTxtBody = await securityTxtResponse.text();
+  assert.equal(securityTxtResponse.status, 200, 'security.txt handler should return 200');
+  assert.match(
+    securityTxtResponse.headers.get('content-type') || '',
+    /^text\/plain/i,
+    'security.txt should return text/plain content type'
+  );
+  assert.match(
+    securityTxtBody,
+    /Contact: mailto:security@bytestreams\.ai/,
+    'security.txt should include contact email'
+  );
+
+  const sitemapRequest = new Request('https://dialtone.menu/sitemap.xml');
+  const sitemapResponse = await worker.fetch(sitemapRequest, throwingAssetsEnv);
+  assert.equal(sitemapResponse.status, 404, 'Explicit sitemap route should return 404 when sitemap is not available');
 
   console.log('robots route tests passed');
 }

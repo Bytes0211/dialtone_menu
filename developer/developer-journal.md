@@ -18,3 +18,9 @@
 - Fixed routing bug where missing static paths could surface as 500.
 - Worker now normalizes unmatched lookup failures to HTTP 404 for `GET`/`HEAD` when assets lookup throws or returns 500.
 - Extended tests to cover missing-path cases like `/robot.txt` and `/favicon.ico` so regressions are caught quickly.
+- Re-structured the Worker entrypoint into an explicit route-dispatch style (`routeRequest`) to keep known-path handling clear without removing existing behavior.
+- Added explicit probe-path handlers in `worker.js`:
+  - `/favicon.ico` returns `204 No Content`
+  - `/.well-known/security.txt` returns a plaintext security contact policy
+  - `/sitemap.xml` returns a direct `404` placeholder (no throw)
+- Extended `tests/robots.test.mjs` to assert the new explicit route behavior.
