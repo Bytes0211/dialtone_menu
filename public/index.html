@@ -99,6 +99,21 @@
       letter-spacing: 0.15em;
       color: var(--muted);
     }
+    .nav-right {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .nav-link {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 150ms ease-out;
+    }
+    .nav-link:hover { color: var(--vermillion); }
 
     /* Main container */
     main {
@@ -408,7 +423,10 @@
         <span class="logo-bullet" aria-hidden="true"></span>
         <span>DialTone</span>
       </a>
-      <span class="nav-meta">Coming soon</span>
+      <span class="nav-right">
+        <span class="nav-meta">Coming soon</span>
+        <a class="nav-link" href="/pricing.html">Pricing</a>
+      </span>
     </div>
   </nav>
 
@@ -487,6 +505,7 @@
     <div class="footer-inner">
       <span>&copy; 2026 DialTone · ByteStreams LLC</span>
       <span class="footer-links">
+        <a href="/pricing.html">Pricing</a>
         <a href="/privacy.html">Privacy</a>
         <a href="/terms.html">Terms</a>
       </span>

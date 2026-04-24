@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Page not found — DialTone</title>
+  <meta name="description" content="The page you were looking for could not be found on DialTone." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..500&family=Instrument+Sans:wght@400..600&family=JetBrains+Mono:wght@400..500&display=swap" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --vermillion: #c8391a;
+      --ink: #1a1410;
+      --paper: #f5efe6;
+      --paper-warm: #ebe3d5;
+      --muted: #6b5d4f;
+      --line: #2a211a;
+      --gold: #b89968;
+
+      --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+      --font-body: 'Instrument Sans', 'Segoe UI', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+      --max-content: 820px;
+      --max-nav: 1240px;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main { flex: 1; }
+
+    /* Navigation */
+    .nav {
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: var(--max-nav);
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .logo-bullet {
+      display: inline-block;
+      width: 0.7em;
+      height: 0.7em;
+      background: var(--vermillion);
+      border-radius: 50%;
+    }
+    .nav-meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+    .nav-right {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .nav-link {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 150ms ease-out;
+    }
+    .nav-link:hover { color: var(--vermillion); }
+
+    /* Hero */
+    .container {
+      max-width: var(--max-content);
+      margin: 0 auto;
+      padding: 5rem 1.5rem 6rem;
+    }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--vermillion);
+      margin: 0 0 1.25rem;
+    }
+    .code {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(6rem, 18vw, 12rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      margin: 0 0 1rem;
+    }
+    .code em {
+      font-style: italic;
+      color: var(--vermillion);
+      font-weight: 500;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(1.8rem, 3.6vw, 2.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0 0 1.25rem;
+      max-width: 640px;
+    }
+    h1 em {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 500;
+      color: var(--vermillion);
+    }
+    .lede {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--muted);
+      margin: 0 0 2.5rem;
+      max-width: 560px;
+    }
+    .lede strong { color: var(--ink); font-weight: 600; }
+
+    .actions {
+      display: inline-flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      text-decoration: none;
+      border: 1px solid var(--ink);
+      transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+    }
+    .btn-primary {
+      background: var(--vermillion);
+      color: var(--paper);
+      border-color: var(--vermillion);
+    }
+    .btn-primary:hover {
+      background: #a52e14;
+      border-color: #a52e14;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+    }
+    .btn-secondary:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--ink);
+      margin-top: auto;
+    }
+    .footer-inner {
+      max-width: var(--max-nav);
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: rgba(245, 239, 230, 0.55);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-inner a {
+      color: rgba(245, 239, 230, 0.8);
+      text-decoration: none;
+      transition: color 150ms ease-out;
+    }
+    .footer-inner a:hover { color: var(--gold); }
+    .footer-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="/" aria-label="DialTone home">
+        <span class="logo-bullet" aria-hidden="true"></span>
+        <span>DialTone</span>
+      </a>
+      <span class="nav-right">
+        <span class="nav-meta">Error 404</span>
+        <a class="nav-link" href="/">Home</a>
+      </span>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <p class="eyebrow">§404 · Page not found</p>
+      <div class="code">4<em>0</em>4</div>
+      <h1>We can't find the page you were looking for.</h1>
+      <p class="lede">
+        It may have moved, been renamed, or never existed. <strong>The phone lines are still open</strong> — try one of these instead.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/">Back to home →</a>
+        <a class="btn btn-secondary" href="/pricing.html">See pricing</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>&copy; 2026 DialTone · ByteStreams LLC</span>
+      <span class="footer-links">
+        <a href="/">Home</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </span>
+    </div>
+  </footer>
+</body>
+</html>
