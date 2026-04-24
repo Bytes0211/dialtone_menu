@@ -24,3 +24,7 @@
   - `/.well-known/security.txt` returns a plaintext security contact policy
   - `/sitemap.xml` returns a direct `404` placeholder (no throw)
 - Extended `tests/robots.test.mjs` to assert the new explicit route behavior.
+- Addressed PR #8 review comments:
+  - Added `try/catch` + 500-to-404 normalization in `handleFavicon` to avoid uncaught 500s on missing/misconfigured asset binding.
+  - Removed dead `isKnownStaticPath` branch from `routeRequest` and kept a single explicit asset fallback path.
+  - Added regression coverage to assert favicon lookup throws resolve to HTTP 404.

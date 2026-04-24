@@ -97,6 +97,13 @@ async function run() {
     'Favicon handler should return image/png content type'
   );
 
+  const explicitFaviconMissingResponse = await worker.fetch(explicitFaviconRequest, throwingAssetsEnv);
+  assert.equal(
+    explicitFaviconMissingResponse.status,
+    404,
+    'Favicon handler should return 404 when favicon asset lookup throws'
+  );
+
   const securityTxtRequest = new Request('https://dialtone.menu/.well-known/security.txt');
   const securityTxtResponse = await worker.fetch(securityTxtRequest, throwingAssetsEnv);
   const securityTxtBody = await securityTxtResponse.text();

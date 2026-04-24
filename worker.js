@@ -32,17 +32,9 @@ async function routeRequest(request, env, url) {
     return handleContact(request, env);
   }
 
-  // Explicitly serve known static pages through the assets binding.
-  if (isKnownStaticPath(url.pathname)) {
-    return handleAssetRequest(request, env);
-  }
-
-  // For all remaining paths, try assets and normalize missing lookups to 404.
+  // For all paths not explicitly handled above, delegate to the assets binding
+  // and normalize missing lookups to 404.
   return handleAssetRequest(request, env);
-}
-
-function isKnownStaticPath(pathname) {
-  return pathname === '/' || pathname === '/privacy.html' || pathname === '/terms.html';
 }
 
 async function handleAssetRequest(request, env) {
@@ -112,7 +104,19 @@ async function handleFavicon(request, env) {
   const faviconUrl = new URL(request.url);
   faviconUrl.pathname = '/images/favicon.png';
   const faviconRequest = new Request(faviconUrl.toString(), request);
-  return env.ASSETS.fetch(faviconRequest);
+  try {
+    const response = await env.ASSETS.fetch(faviconRequest);
+    if (response.status === 500 && isLookupMethod(request.method)) {
+      return notFoundResponse();
+    }
+    return response;
+  } catch (error) {
+    if (isLookupMethod(request.method)) {
+      console.log('ASSETS favicon lookup error:', String(error));
+      return notFoundResponse();
+    }
+    throw error;
+  }
 }
 
 function handleSecurityTxt() {
