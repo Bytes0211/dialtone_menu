@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm run *)",
+      "WebFetch(domain:developers.cloudflare.com)",
+      "Bash(pnpm exec *)"
+    ]
+  }
+}

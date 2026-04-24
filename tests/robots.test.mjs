@@ -121,7 +121,24 @@ async function run() {
 
   const sitemapRequest = new Request('https://dialtone.menu/sitemap.xml');
   const sitemapResponse = await worker.fetch(sitemapRequest, throwingAssetsEnv);
-  assert.equal(sitemapResponse.status, 404, 'Explicit sitemap route should return 404 when sitemap is not available');
+  const sitemapBody = await sitemapResponse.text();
+  assert.equal(sitemapResponse.status, 200, 'Explicit sitemap route should return 200');
+  assert.match(
+    sitemapResponse.headers.get('content-type') || '',
+    /^application\/xml/i,
+    'Sitemap should return application/xml content type'
+  );
+  assert.match(sitemapBody, /<loc>https:\/\/dialtone\.menu\/<\/loc>/, 'Sitemap should include homepage');
+  assert.match(
+    sitemapBody,
+    /<loc>https:\/\/dialtone\.menu\/privacy\.html<\/loc>/,
+    'Sitemap should include privacy page'
+  );
+  assert.match(
+    sitemapBody,
+    /<loc>https:\/\/dialtone\.menu\/terms\.html<\/loc>/,
+    'Sitemap should include terms page'
+  );
 
   console.log('robots route tests passed');
 }

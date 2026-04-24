@@ -25,7 +25,7 @@ async function routeRequest(request, env, url) {
   }
 
   if (url.pathname === '/sitemap.xml') {
-    return notFoundResponse();
+    return handleSitemap(url);
   }
 
   if (url.pathname === '/api/contact') {
@@ -130,6 +130,23 @@ function handleSecurityTxt() {
   return new Response(body, {
     headers: {
       'content-type': 'text/plain; charset=utf-8'
+    }
+  });
+}
+
+function handleSitemap(url) {
+  const pages = ['/', '/privacy.html', '/terms.html'];
+  const body = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...pages.map((path) => `  <url><loc>${escapeXml(`${url.origin}${path}`)}</loc></url>`),
+    '</urlset>',
+    ''
+  ].join('\n');
+
+  return new Response(body, {
+    headers: {
+      'content-type': 'application/xml; charset=utf-8'
     }
   });
 }
@@ -255,6 +272,15 @@ async function forwardToFormSubmit({ destinationEmail, siteName, name, email, me
 
 function normalizeText(value, maxLength) {
   return String(value || '').trim().slice(0, maxLength);
+}
+
+function escapeXml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&apos;');
 }
 
 function jsonResponse(body, status = 200) {

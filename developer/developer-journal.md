@@ -28,3 +28,8 @@
   - Added `try/catch` + 500-to-404 normalization in `handleFavicon` to avoid uncaught 500s on missing/misconfigured asset binding.
   - Removed dead `isKnownStaticPath` branch from `routeRequest` and kept a single explicit asset fallback path.
   - Added regression coverage to assert favicon lookup throws resolve to HTTP 404.
+- Implemented a real `/sitemap.xml` route in `worker.js` for the public pages (`/`, `/privacy.html`, `/terms.html`) with `application/xml` responses.
+- Updated `tests/robots.test.mjs` to validate sitemap XML content and confirmed the route suite still passes.
+- Tightened `.assetsignore` so internal project files are not deployed as public assets (`.wrangler/`, `tests/`, `AGENTS.md`, `CLAUDE.md`).
+- Tightened `.assetsignore` further so only `images/favicon.png` remains publicly deployed from `images/`; all other image files are now excluded.
+- Excluded accidental root temp file `tmp-convo.md` after deploy output showed it was being published as a public asset.
