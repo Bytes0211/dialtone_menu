@@ -27,20 +27,36 @@ CONTACT_EMAIL = "hello@bytestreams.ai"
 # submissions.
 SITE_NAME = "DialTone"
 
-# Assets directory is the repo root. `.assetsignore` excludes
-# `wrangler.toml`, `.assetsignore`, and `worker.js` so those files
-# don't get served back as public assets.
+# Assets live under `./public/` so wrangler's dev-server file watcher
+# doesn't observe `.wrangler/` writes (which would cause a self-
+# triggering reload loop). `public/.assetsignore` excludes the design/
+# concept PNGs from being served publicly while still letting them
+# live in the repo.
 [assets]
-directory = "./"
+directory = "./public/"
 # `binding = "ASSETS"` exposes the assets collection to the Worker as
 # `env.ASSETS`, which `worker.js` uses to proxy `/favicon.ico` to
 # `/images/favicon.png` and to resolve unmatched paths. Without this
 # binding, `env.ASSETS` is undefined and those fallbacks 404 silently.
 binding = "ASSETS"
-# not_found_handling = "none" — this is a static multi-page site, not
-# an SPA, so unknown paths should return 404 rather than rewriting
-# to /index.html.
-not_found_handling = "none"
+# not_found_handling = "404-page" — this is a static multi-page site,
+# not an SPA, so unknown paths should return the branded /404.html
+# with a 404 status rather than rewriting to /index.html.
+not_found_handling = "404-page"
+# With `not_found_handling = "404-page"`, non-asset requests are
+# short-circuited to `/404.html` without invoking the Worker. The
+# Worker owns these dynamic paths (robots.txt, sitemap.xml, favicon
+# fallback to /images/favicon.png, security.txt, contact form), so
+# force them to run through the Worker first instead of being
+# treated as missing assets.
+run_worker_first = [
+  "/robots.txt",
+  "/sitemap.xml",
+  "/favicon.ico",
+  "/favicon.png",
+  "/.well-known/*",
+  "/api/*"
+]
 
 # Keep Worker observability settings in source control so dashboard and
 # CI/CD deployments stay consistent.

@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pricing — DialTone</title>
+  <meta name="description" content="DialTone pricing for restaurants — pilot program, Starter, Pro, and Enterprise tiers for AI voice ordering." />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="Pricing — DialTone" />
+  <meta property="og:description" content="Pay when the phone rings. Pilot, Starter, Pro, and Enterprise tiers for AI voice ordering." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://dialtone.menu/pricing.html" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c8391a'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..500&family=Instrument+Sans:wght@400..600&family=JetBrains+Mono:wght@400..500&display=swap" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --vermillion: #c8391a;
+      --ember: #e04d2e;
+      --brick: #a52e14;
+      --ink: #1a1410;
+      --paper: #f5efe6;
+      --paper-warm: #ebe3d5;
+      --parchment: #ddd4c4;
+      --muted: #6b5d4f;
+      --line: #2a211a;
+      --line-soft: rgba(42, 33, 26, 0.18);
+      --gold: #b89968;
+
+      --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+      --font-body: 'Instrument Sans', 'Segoe UI', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+      --max-content: 820px;
+      --max-wide: 1240px;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main { flex: 1; }
+
+    /* Navigation */
+    .nav {
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .logo-bullet {
+      display: inline-block;
+      width: 0.7em;
+      height: 0.7em;
+      background: var(--vermillion);
+      border-radius: 50%;
+    }
+    .nav-meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+    .nav-right {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .nav-link {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 150ms ease-out;
+    }
+    .nav-link:hover { color: var(--vermillion); }
+
+    /* Hero */
+    .hero {
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-inner {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      padding: 4rem 1.5rem 3rem;
+    }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--vermillion);
+      margin: 0 0 1rem;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin: 0 0 1.25rem;
+      max-width: 900px;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--vermillion);
+      font-weight: 500;
+    }
+    .lede {
+      font-size: 1.125rem;
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0;
+    }
+    .lede strong { color: var(--ink); font-weight: 600; }
+
+    /* Tiers */
+    .tiers {
+      border-bottom: 1px solid var(--line);
+    }
+    .tiers-inner {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+    .tiers-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin: 0 0 2.5rem;
+      flex-wrap: wrap;
+    }
+    .tiers-head h2 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.7rem;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0;
+    }
+    .tiers-head h2 .num {
+      font-family: var(--font-mono);
+      font-weight: 400;
+      color: var(--vermillion);
+      font-size: 0.8em;
+      letter-spacing: 0;
+      margin-right: 0.5rem;
+    }
+    .tiers-note {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+    @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .grid { grid-template-columns: 1fr; } }
+
+    .tier {
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 2rem 1.75rem 2.25rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      min-height: 560px;
+      background: var(--paper);
+    }
+    .tier.featured {
+      background: var(--paper-warm);
+    }
+    .tier-no {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin: 0 0 1rem;
+    }
+    .tier.featured .tier-no { color: var(--vermillion); }
+    .tier-name {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.75rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin: 0 0 0.35rem;
+    }
+    .tier-tag {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0 0 1.75rem;
+      min-height: 2.5rem;
+    }
+    .tier-price {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 2.6rem;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--ink);
+      margin: 0 0 0.25rem;
+    }
+    .tier-price .from {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 400;
+    }
+    .tier-price .unit {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+    .tier-fee {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      margin: 0.75rem 0 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .tier-fee strong { color: var(--ink); font-weight: 600; }
+
+    .tier-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.75rem;
+      flex: 1;
+    }
+    .tier-features li {
+      font-size: 0.92rem;
+      color: var(--ink);
+      line-height: 1.5;
+      padding: 0.4rem 0 0.4rem 1.25rem;
+      position: relative;
+    }
+    .tier-features li::before {
+      content: "+";
+      position: absolute;
+      left: 0;
+      top: 0.4rem;
+      color: var(--vermillion);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+    .tier-features li.muted { color: var(--muted); }
+    .tier-features li.muted::before { content: "—"; color: var(--muted); }
+
+    .tier-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.25rem;
+      border: 1px solid var(--ink);
+      color: var(--ink);
+      background: transparent;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+    }
+    .tier-cta:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .tier.featured .tier-cta {
+      background: var(--vermillion);
+      color: var(--paper);
+      border-color: var(--vermillion);
+    }
+    .tier.featured .tier-cta:hover {
+      background: var(--brick);
+      border-color: var(--brick);
+    }
+
+    .pilot-badge {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--vermillion);
+      border: 1px solid var(--vermillion);
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+    }
+
+    /* Details */
+    .details {
+      border-bottom: 1px solid var(--line);
+    }
+    .details-inner {
+      max-width: var(--max-content);
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+    .details h2 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.7rem;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0 0 2.5rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .details h2 .num {
+      font-family: var(--font-mono);
+      font-weight: 400;
+      color: var(--vermillion);
+      font-size: 0.8em;
+      letter-spacing: 0;
+    }
+
+    .detail-block {
+      margin: 0 0 2rem;
+      padding: 0 0 2rem;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .detail-block:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .detail-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--vermillion);
+      margin: 0 0 0.75rem;
+    }
+    .detail-title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.15rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin: 0 0 0.75rem;
+    }
+    .detail-body p {
+      font-size: 1rem;
+      color: var(--ink);
+      margin: 0 0 0.9rem;
+    }
+    .detail-body p:last-child { margin-bottom: 0; }
+    .detail-body strong { font-weight: 600; }
+    .detail-body a {
+      color: var(--vermillion);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+    .detail-body a:hover { color: var(--ink); }
+
+    /* CTA */
+    .cta {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .cta-inner {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      padding: 4.5rem 1.5rem 5rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .cta h2 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin: 0;
+      max-width: 720px;
+      color: var(--paper);
+    }
+    .cta h2 em {
+      font-style: italic;
+      color: var(--gold);
+      font-weight: 500;
+    }
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 1rem 1.75rem;
+      background: var(--vermillion);
+      color: var(--paper);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border: 1px solid var(--vermillion);
+      text-decoration: none;
+      transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+      white-space: nowrap;
+    }
+    .cta-button:hover {
+      background: var(--ember);
+      border-color: var(--ember);
+      color: var(--paper);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--ink);
+      margin-top: auto;
+      border-top: 1px solid rgba(245, 239, 230, 0.1);
+    }
+    .footer-inner {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: rgba(245, 239, 230, 0.55);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-inner a {
+      color: rgba(245, 239, 230, 0.8);
+      text-decoration: none;
+      transition: color 150ms ease-out;
+    }
+    .footer-inner a:hover { color: var(--gold); }
+    .footer-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="/" aria-label="DialTone home">
+        <span class="logo-bullet" aria-hidden="true"></span>
+        <span>DialTone</span>
+      </a>
+      <span class="nav-right">
+        <span class="nav-meta">Pricing</span>
+        <a class="nav-link" href="/">Home</a>
+      </span>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="eyebrow">§00 · For restaurants</p>
+        <h1>Pay <em>when the phone rings.</em> Not before.</h1>
+        <p class="lede">
+          DialTone charges a small fee on the orders we help you capture, plus a flat monthly subscription that scales with the features you need. <strong>No setup fees. No annual contracts. No charge for missed calls.</strong>
+        </p>
+      </div>
+    </section>
+
+    <section class="tiers">
+      <div class="tiers-inner">
+        <div class="tiers-head">
+          <h2><span class="num">01</span>Four ways to run DialTone</h2>
+          <span class="tiers-note">All prices USD · Billed monthly · Cancel anytime</span>
+        </div>
+
+        <div class="grid">
+          <div class="tier">
+            <span class="pilot-badge">Limited spots</span>
+            <p class="tier-no">Tier 01</p>
+            <h3 class="tier-name">Pilot</h3>
+            <p class="tier-tag">Free 60-day trial for design-partner restaurants helping shape v1.0.</p>
+            <div class="tier-price">
+              <span class="from">Starting at</span>
+              $0<span class="unit"> / 60 days</span>
+            </div>
+            <p class="tier-fee">Transaction fee · <strong>4%</strong> on orders paid by card</p>
+
+            <ul class="tier-features">
+              <li>Voice ordering on one phone number</li>
+              <li>Menu &amp; hours dashboard</li>
+              <li>SMS payment links via Stripe</li>
+              <li>Direct line to the founder</li>
+              <li class="muted">Must convert to paid by day 61</li>
+            </ul>
+
+            <a class="tier-cta" href="mailto:hello@dialtone.menu?subject=DialTone%20Pilot%20Application">Apply for pilot →</a>
+          </div>
+
+          <div class="tier">
+            <p class="tier-no">Tier 02</p>
+            <h3 class="tier-name">Starter</h3>
+            <p class="tier-tag">For independent restaurants that want to stop missing phone orders.</p>
+            <div class="tier-price">
+              <span class="from">Starting at</span>
+              $89<span class="unit"> / month</span>
+            </div>
+            <p class="tier-fee">Transaction fee · <strong>3%</strong> on orders paid by card</p>
+
+            <ul class="tier-features">
+              <li>Voice ordering, one location</li>
+              <li>Menu, modifiers, hours</li>
+              <li>Kitchen tablet view</li>
+              <li>SMS payment &amp; confirmations</li>
+              <li>Order history &amp; exports</li>
+              <li>Email support</li>
+            </ul>
+
+            <a class="tier-cta" href="mailto:hello@dialtone.menu?subject=DialTone%20Starter%20-%20Waitlist">Join waitlist →</a>
+          </div>
+
+          <div class="tier featured">
+            <p class="tier-no">Tier 03 · Most common</p>
+            <h3 class="tier-name">Pro</h3>
+            <p class="tier-tag">For restaurants doing real volume — phone orders and table reservations in one place.</p>
+            <div class="tier-price">
+              <span class="from">Starting at</span>
+              $229<span class="unit"> / month</span>
+            </div>
+            <p class="tier-fee">Transaction fee · <strong>2%</strong> on orders paid by card</p>
+
+            <ul class="tier-features">
+              <li>Everything in Starter</li>
+              <li>Table reservations &amp; reminders</li>
+              <li>Returning-caller recognition</li>
+              <li>Basic analytics &amp; weekly summary</li>
+              <li>Custom voice personality</li>
+              <li>Priority email support</li>
+            </ul>
+
+            <a class="tier-cta" href="mailto:hello@dialtone.menu?subject=DialTone%20Pro%20-%20Waitlist">Join waitlist →</a>
+          </div>
+
+          <div class="tier">
+            <p class="tier-no">Tier 04</p>
+            <h3 class="tier-name">Enterprise</h3>
+            <p class="tier-tag">Multi-location groups, franchises, and POS-integrated restaurants.</p>
+            <div class="tier-price">
+              <span class="from">Custom</span>
+              Let's talk
+            </div>
+            <p class="tier-fee">Transaction fee · <strong>Custom</strong>, volume-based</p>
+
+            <ul class="tier-features">
+              <li>Everything in Pro</li>
+              <li>Multi-location support</li>
+              <li>POS integrations (Toast, Square, &amp;c.)</li>
+              <li>SSO &amp; role-based admin</li>
+              <li>Custom SLA &amp; uptime commitments</li>
+              <li>Dedicated support channel</li>
+            </ul>
+
+            <a class="tier-cta" href="mailto:hello@dialtone.menu?subject=DialTone%20Enterprise%20Inquiry">Contact sales →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="details">
+      <div class="details-inner">
+        <h2><span class="num">02</span>The fine print, made less fine.</h2>
+
+        <div class="detail-block">
+          <p class="detail-label">01 · How payment works</p>
+          <div class="detail-body">
+            <p>When a customer places a phone order, DialTone texts them a secure Stripe Checkout link. They pay the restaurant directly through Stripe Connect. Funds settle to your connected Stripe account on Stripe's normal payout schedule.</p>
+            <p>DialTone takes a small platform fee off the top of each card order — the percentage shown in your tier above. We never touch the money; Stripe handles the split at the moment of payment.</p>
+          </div>
+        </div>
+
+        <div class="detail-block">
+          <p class="detail-label">02 · What counts as a transaction</p>
+          <div class="detail-body">
+            <p>The transaction fee applies only to <strong>card orders placed through DialTone and successfully paid</strong>. Walk-in orders, phone orders paid in cash at pickup, and abandoned checkouts are not charged a transaction fee.</p>
+            <p>Reservations are not transactions and carry no per-booking fee — they're included in your subscription.</p>
+          </div>
+        </div>
+
+        <div class="detail-block">
+          <p class="detail-label">03 · Pilot program</p>
+          <div class="detail-body">
+            <p>The Pilot tier is a curated program for restaurants willing to give real feedback during v1.0. We're taking a small number of design-partner restaurants and working closely with each of them. You pay no subscription for 60 days; Stripe's standard processing fees and our 4% transaction fee still apply on card orders.</p>
+            <p>At day 61, pilots convert to Starter or Pro — or off DialTone entirely, no hard feelings. Pilot spots require a short application so we can make sure we're a mutual fit.</p>
+          </div>
+        </div>
+
+        <div class="detail-block">
+          <p class="detail-label">04 · Stripe fees</p>
+          <div class="detail-body">
+            <p>Card payments run on Stripe, which charges the restaurant their standard processing fees (currently 2.9% + $0.30 per successful charge in the US). Those fees are separate from DialTone's transaction fee and are billed directly by Stripe.</p>
+            <p>We never mark up Stripe's fees. What Stripe charges, you pay — nothing more.</p>
+          </div>
+        </div>
+
+        <div class="detail-block">
+          <p class="detail-label">05 · No-contract, cancel anytime</p>
+          <div class="detail-body">
+            <p>Starter and Pro are month-to-month. Cancel and you keep access through the end of the billing period. We do not lock restaurants into annual contracts, and we do not charge setup or onboarding fees.</p>
+            <p>Enterprise contracts are bespoke and may include annual terms and SLA commitments negotiated in the agreement.</p>
+          </div>
+        </div>
+
+        <div class="detail-block">
+          <p class="detail-label">06 · Prices may change</p>
+          <div class="detail-body">
+            <p>We're pre-launch. The numbers on this page reflect our current "starting at" rates for the first cohort of paying restaurants. Early customers who sign up during launch will be grandfathered at their original rate for at least twelve months, even if we adjust public pricing.</p>
+            <p>Material pricing changes will be announced at least 30 days in advance by email to billing contacts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="cta-inner">
+        <h2>The phone is still ringing.<br /><em>Let's answer it.</em></h2>
+        <a class="cta-button" href="mailto:hello@dialtone.menu?subject=DialTone%20Inquiry">Get in touch →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>&copy; 2026 DialTone · ByteStreams LLC</span>
+      <span class="footer-links">
+        <a href="/">Home</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </span>
+    </div>
+  </footer>
+</body>
+</html>

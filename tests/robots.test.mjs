@@ -131,6 +131,11 @@ async function run() {
   assert.match(sitemapBody, /<loc>https:\/\/dialtone\.menu\/<\/loc>/, 'Sitemap should include homepage');
   assert.match(
     sitemapBody,
+    /<loc>https:\/\/dialtone\.menu\/pricing\.html<\/loc>/,
+    'Sitemap should include pricing page'
+  );
+  assert.match(
+    sitemapBody,
     /<loc>https:\/\/dialtone\.menu\/privacy\.html<\/loc>/,
     'Sitemap should include privacy page'
   );
