@@ -48,9 +48,38 @@ async function routeRequest(request, env, url) {
     return handleContact(request, env);
   }
 
+  // DialTone Stripe Checkout post-payment landing pages.
+  // Stripe redirects paying customers to /orders/<order_id>/paid or
+  // /orders/<order_id>/cancel after a Checkout Session completes; the
+  // order_id in the URL is opaque (a UUID from the sibling DialTone
+  // Supabase project, not accessible from this site). We just rewrite
+  // the path to a static template and serve via the assets binding.
+  // See AGENTS.md → "DialTone Stripe Checkout integration" for context.
+  const orderResultMatch = url.pathname.match(/^\/orders\/[^/]+\/(paid|cancel)$/);
+  if (orderResultMatch && isLookupMethod(request.method)) {
+    return handleOrderResult(request, env, url, orderResultMatch[1]);
+  }
+
   // For all paths not explicitly handled above, delegate to the assets binding
   // and normalize missing lookups to 404.
   return handleAssetRequest(request, env);
+}
+
+async function handleOrderResult(request, env, url, kind) {
+  const targetUrl = new URL(url);
+  targetUrl.pathname = `/orders/${kind}.html`;
+  targetUrl.search = '';
+  const rewritten = new Request(targetUrl.toString(), request);
+  try {
+    const response = await env.ASSETS.fetch(rewritten);
+    if (response.status === 500 && isLookupMethod(request.method)) {
+      return notFoundResponse();
+    }
+    return response;
+  } catch (error) {
+    console.log('ASSETS order-result lookup error:', String(error));
+    return notFoundResponse();
+  }
 }
 
 async function handleAssetRequest(request, env) {

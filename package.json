@@ -7,7 +7,8 @@
   "scripts": {
     "validate:deploy": "node developer/ci/validate-cloudflare-config.mjs",
     "deploy": "wrangler deploy",
-    "test:robots": "node tests/robots.test.mjs"
+    "test:robots": "node tests/robots.test.mjs",
+    "test:orders": "node tests/orders.test.mjs"
   },
   "devDependencies": {
     "wrangler": "4.85.0"
